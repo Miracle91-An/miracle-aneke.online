@@ -166,3 +166,24 @@ button:hover {
         font-size: 1.2rem;
     }
 }
+.name-container {
+    text-align: center;
+    margin: 2rem auto;
+    max-width: 800px;
+}
+.centered-name {
+    font-size:2rem;
+    font-weight: 500;
+    colour: #333;
+    margin: 1.5rem 0;
+    padding: 0.5rem 0;
+    position: relative;
+    }
+.centered-name::after {
+    content: "";
+    display: block;
+    width: 100px;
+    height: 2px;
+    background: #eee;
+    margin: 1rem auto 0;
+}
