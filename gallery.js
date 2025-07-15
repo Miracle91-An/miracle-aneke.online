@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Auto-sliding gallery
     const slides = document.querySelectorAll('.slide');
     const prevBtn = document.querySelector('.prev');
     const nextBtn = document.querySelector('.next');
@@ -9,18 +8,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize first slide
     slides[currentSlide].classList.add('active');
 
-    // Next slide function
-    function nextSlide() {
+    function goToSlide(n) {
         slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % totalSlides;
+        currentSlide = (n + totalSlides) % totalSlides;
         slides[currentSlide].classList.add('active');
     }
 
-    // Previous slide function
+    function nextSlide() {
+        goToSlide(currentSlide + 1);
+    }
+
     function prevSlide() {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-        slides[currentSlide].classList.add('active');
+        goToSlide(currentSlide - 1);
     }
 
     // Button events
@@ -30,6 +29,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Auto-advance every 5 seconds (optional)
     setInterval(nextSlide, 5000);
 
-    // Update copyright year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight') nextSlide();
+        if (e.key === 'ArrowLeft') prevSlide();
+    });
 });
