@@ -187,3 +187,9 @@ button:hover {
     background: #eee;
     margin: 1rem auto 0;
 }
+.gallery-description {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 15px;
+}
+      
