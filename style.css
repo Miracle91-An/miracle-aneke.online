@@ -475,25 +475,3 @@ footer a {
 }
 
 
-@media (max-width: 768px) {
-  nav ul {
-    display: none;
-    flex-direction: column;
-    background: #fff;
-    padding: 10px;
-    position: absolute;
-    top: 60px;
-    right: 0;
-    width: 100%;
-  }
-
-  nav ul.show {
-    display: flex;
-  }
-
-
-  .logo img {
-    display: block;
-      margin: 0 auto;
-  }
-}
