@@ -57,6 +57,7 @@
             <div class="logo">
                 <img src="miraclelogo.jpg" alt="Miracle Aneke Logo" width="180" height="141">
             </div>
+            <div class="menu-toggle" onclick="toggleMenu()">☰</div>
             <nav>
                 <ul>
                     <li class="active"><a href="index.html">Home</a></li>
@@ -126,12 +127,7 @@
             </div>
             <iframe src="https://miracleaneke.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
         </div>
-        <div id="ezoic-pub-ad-placeholder-118"></div>
-<script>
-    ezstandalone.cmd.push(function () {
-        ezstandalone.showAds(101);
-    });
-</script>
+
     </section>
 
     <footer>
@@ -145,5 +141,10 @@
     </footer>
 
     <script src="main.js"></script>
+    <script>
+  function toggleMenu() {
+    document.querySelector('nav ul').classList.toggle('show');
+  }
+</script>
 </body>
 </html>
