@@ -27,15 +27,17 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     mobileMenuBtn.addEventListener('click', toggleMenu);
+    
+    // Close menu when clicking on overlay
     overlay.addEventListener('click', toggleMenu);
-
+    
     // Close menu when clicking on nav links
     document.querySelectorAll('.mobile-nav a').forEach(link => {
       link.addEventListener('click', toggleMenu);
     });
 
     // Close menu when pressing Escape key
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
         toggleMenu();
       }
@@ -54,8 +56,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
           const headerHeight = document.querySelector('header').offsetHeight;
+          const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+          
           window.scrollTo({
-            top: targetElement.offsetTop - headerHeight,
+            top: targetPosition,
             behavior: 'smooth'
           });
         }
@@ -90,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
     
     blogPostsContainer.innerHTML = blogPosts.map(post => `
-      <div class="blog-post">
+      <div class="blog-post slide-center">
         <h3>${post.title}</h3>
         <p class="post-date">${post.date}</p>
         <p class="post-excerpt">${post.excerpt}</p>
@@ -123,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
     
     testimonialSlider.innerHTML = testimonials.map(testimonial => `
-      <div class="testimonial">
+      <div class="testimonial slide-center">
         <blockquote>"${testimonial.quote}"</blockquote>
         <div class="testimonial-author">
           <strong>${testimonial.author}</strong>
@@ -187,23 +191,46 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   };
 
-  // ==================== ANIMATIONS ON SCROLL ====================
+  // ==================== ANIMATION ON SCROLL ====================
   const initScrollAnimations = () => {
-    const animatedElements = document.querySelectorAll('.slide-top, .slide-left, .slide-right, .fade-in');
+    const animatedElements = document.querySelectorAll('.service-item, .blog-post, .testimonial');
     
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.style.visibility = 'visible';
-          entry.target.classList.add('animated');
+          entry.target.classList.add('slide-center');
+          observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, {
+      threshold: 0.1
+    });
     
     animatedElements.forEach(el => {
-      el.style.visibility = 'hidden';
       observer.observe(el);
     });
+  };
+
+  // ==================== LAZY LOADING IMAGES ====================
+  const initLazyLoading = () => {
+    if ('IntersectionObserver' in window) {
+      const lazyImages = document.querySelectorAll('img[data-src]');
+      
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+            imageObserver.unobserve(img);
+          }
+        });
+      });
+      
+      lazyImages.forEach(img => {
+        imageObserver.observe(img);
+      });
+    }
   };
 
   // ==================== INITIALIZE ALL FUNCTIONS ====================
@@ -215,4 +242,5 @@ document.addEventListener('DOMContentLoaded', function() {
   initFormValidation();
   initDonationForm();
   initScrollAnimations();
+  initLazyLoading();
 });
