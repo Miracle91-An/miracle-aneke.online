@@ -11,38 +11,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ==================== MOBILE MENU SYSTEM ====================
   const initMobileMenu = () => {
-    const header = document.querySelector('header .container');
-    if (!header) return;
-
-    // Create mobile menu button
-    const mobileMenuBtn = document.createElement('button');
-    mobileMenuBtn.className = 'mobile-menu-btn';
-    mobileMenuBtn.setAttribute('aria-label', 'Toggle navigation');
-    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-    header.appendChild(mobileMenuBtn);
-
-    // Mobile menu functionality
-    const nav = document.querySelector('nav');
-    const overlay = document.createElement('div');
-    overlay.className = 'overlay';
-    document.body.appendChild(overlay);
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const mobileNav = document.querySelector('.mobile-nav');
+    const overlay = document.querySelector('.overlay');
+    
+    if (!mobileMenuBtn || !mobileNav || !overlay) return;
 
     const toggleMenu = () => {
-      nav.classList.toggle('active');
+      mobileNav.classList.toggle('active');
       overlay.classList.toggle('active');
-      mobileMenuBtn.innerHTML = nav.classList.contains('active') 
+      mobileMenuBtn.innerHTML = mobileNav.classList.contains('active') 
         ? '<i class="fas fa-times"></i>' 
         : '<i class="fas fa-bars"></i>';
-      document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+      document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
     };
 
     mobileMenuBtn.addEventListener('click', toggleMenu);
     overlay.addEventListener('click', toggleMenu);
 
     // Close menu when clicking on nav links
-    document.querySelectorAll('nav a').forEach(link => {
+    document.querySelectorAll('nav.mobile-nav a').forEach(link => {
       link.addEventListener('click', () => {
-        if (nav.classList.contains('active')) toggleMenu();
+        if (mobileNav.classList.contains('active')) toggleMenu();
       });
     });
   };
@@ -94,8 +84,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     ];
     
-    blogPostsContainer.innerHTML = blogPosts.map(post => `
-      <div class="blog-post">
+    blogPostsContainer.innerHTML = blogPosts.map((post, index) => `
+      <div class="blog-post ${index % 2 === 0 ? 'slide-in-left' : 'slide-in-right'}">
         <h3>${post.title}</h3>
         <p class="post-date">${post.date}</p>
         <p class="post-excerpt">${post.excerpt}</p>
@@ -127,8 +117,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     ];
     
-    testimonialSlider.innerHTML = testimonials.map(testimonial => `
-      <div class="testimonial">
+    testimonialSlider.innerHTML = testimonials.map((testimonial, index) => `
+      <div class="testimonial ${index % 2 === 0 ? 'slide-in-left' : 'slide-in-right'}">
         <blockquote>"${testimonial.quote}"</blockquote>
         <div class="testimonial-author">
           <strong>${testimonial.author}</strong>
@@ -192,34 +182,40 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   };
 
-  // ==================== LOGO PROTECTION ====================
-  const protectLogo = () => {
-    const logo = document.querySelector('.logo img');
-    if (!logo) return;
-
-    const maxMobileWidth = 150; // Maximum width for mobile
-    const originalWidth = logo.naturalWidth || 200;
-    const originalHeight = logo.naturalHeight || 100;
+  // ==================== ANIMATION ON SCROLL ====================
+  const initScrollAnimations = () => {
+    const animatedElements = document.querySelectorAll('.slide-in-left, .slide-in-right, .slide-in-top, .slide-in-bottom, .slide-in-center, .fade-in');
     
-    const adjustLogo = () => {
-      if (window.innerWidth <= 768) {
-        logo.style.width = ${Math.min(maxMobileWidth, originalWidth)}px;
-        logo.style.height = 'auto';
-      } else {
-        logo.style.width = '';
-        logo.style.height = '';
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.visibility = 'visible';
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translate(0, 0) scale(1)';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    animatedElements.forEach(el => {
+      el.style.visibility = 'hidden';
+      el.style.opacity = '0';
+      el.style.transition = 'all 0.8s ease-out';
+      
+      if (el.classList.contains('slide-in-left')) {
+        el.style.transform = 'translateX(-100px)';
+      } else if (el.classList.contains('slide-in-right')) {
+        el.style.transform = 'translateX(100px)';
+      } else if (el.classList.contains('slide-in-top')) {
+        el.style.transform = 'translateY(-100px)';
+      } else if (el.classList.contains('slide-in-bottom')) {
+        el.style.transform = 'translateY(100px)';
+      } else if (el.classList.contains('slide-in-center')) {
+        el.style.transform = 'scale(0.8)';
       }
-    };
-
-    // Set initial size
-    if (logo.complete) {
-      adjustLogo();
-    } else {
-      logo.onload = adjustLogo;
-    }
-
-    // Adjust on resize
-    window.addEventListener('resize', adjustLogo);
+      
+      observer.observe(el);
+    });
   };
 
   // ==================== INITIALIZE ALL FUNCTIONS ====================
@@ -230,5 +226,5 @@ document.addEventListener('DOMContentLoaded', function() {
   loadTestimonials();
   initFormValidation();
   initDonationForm();
-  protectLogo();
+  initScrollAnimations();
 });
