@@ -17,79 +17,617 @@
     <meta name="twitter:description" content="The Official Website of Miracle Aneke - Ghanaian-Nigerian blogger, science educator, entrepreneur. The founder and CEO of Four Smart brothers Ltd">
     <meta name="twitter:image" content="https://miracle-aneke.online/miraclelogo.jpg">
     <title>Miracle Aneke | Official Website</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    </noscript>
+    
+    <!-- Tailwind CSS for quick responsive fixes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header styles */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        /* Desktop Navigation */
+        .desktop-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .desktop-nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .desktop-nav a:hover {
+            color: #3498db;
+        }
+        
+        .desktop-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #3498db;
+            transition: width 0.3s ease;
+        }
+        
+        .desktop-nav a:hover::after {
+            width: 100%;
+        }
+        
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 80px 30px 30px;
+        }
+        
+        .mobile-nav.active {
+            right: 0;
+        }
+        
+        .mobile-nav ul {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .mobile-nav li {
+            margin-bottom: 15px;
+        }
+        
+        .mobile-nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-nav a:hover {
+            background: #f8f9fa;
+            color: #3498db;
+            transform: translateX(5px);
+        }
+        
+        .mobile-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .mobile-social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            color: #333;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-social a:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Main content adjustments for fixed header */
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 200px);
+        }
+        
+        /* Hero section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .hero h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-3px);
+        }
+        
+        /* Services section */
+        .services {
+            padding: 60px 0;
+            background: #f8f9fa;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: #2c3e50;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-item {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .service-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .service-item i {
+            font-size: 2.5rem;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+        
+        .service-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        /* Latest blog section */
+        .latest-blog {
+            padding: 60px 0;
+        }
+        
+        .blog-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo img {
+            border-radius: 50%;
+            margin-bottom: 20px;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+        
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #ecf0f1;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #3498db;
+        }
+        
+        .footer-contact p {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #bdc3c7;
+        }
+        
+        .footer-contact i {
+            margin-right: 10px;
+            color: #3498db;
+            width: 20px;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #34495e;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .legal-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .legal-links a:hover {
+            color: #3498db;
+        }
+        
+        /* Skip to content */
+        .skip-to-content {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #3498db;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            z-index: 1001;
+            transition: top 0.3s ease;
+        }
+        
+        .skip-to-content:focus {
+            top: 0;
+        }
+        
+        /* Animation classes */
+        .slide-top {
+            animation: slideTop 0.5s ease;
+        }
+        
+        @keyframes slideTop {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .header-container {
+                padding: 10px 20px;
+            }
+            
+            .logo-text {
+                font-size: 1.3rem;
+            }
+            
+            main {
+                margin-top: 60px;
+            }
+            
+            .hero {
+                padding: 40px 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.3rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+                padding: 0 20px;
+            }
+            
+            .services,
+            .latest-blog {
+                padding: 40px 0;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+                margin-bottom: 30px;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .service-item {
+                padding: 20px;
+            }
+            
+            .blog-posts {
+                grid-template-columns: 1fr;
+            }
+            
+            footer {
+                padding: 40px 0 20px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .social-icons a {
+                width: 40px;
+                height: 40px;
+                font-size: 1.3rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .mobile-nav {
+                width: 100%;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.2rem;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+        }
+    </style>
+    
     <!-- Clarity tracking code for https://miracle-aneke.online/ -->
-<script>
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "t82wkucc73");
-</script>
+    <script>
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "t82wkucc73");
+    </script>
+    
     <script type="application/ld+json">
         {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Person",
-      "name": "Miracle Aneke",
-      "alternateName": [
-        "Miracle Aneke the Blogger",
-        "Miracle Aneke the Science Blogger",
-        "Miracle Aneke CEO",
-        "Miracle Aneke the Entrepreneur"
-      ],
-      "gender": "Male",
-      "height": "170 cm",
-      "nationality": ["Ghanaian", "Nigerian"],
-      "birthPlace": {
-        "@type": "Place",
-        "name": "Tema, Ghana"
-      },
-      "url": "https://miracle-aneke.online",
-      "image": "https://miracle-aneke.online/gallery.html",
-      "sameAs": [
-        "https://www.wikidata.org/Q134446025",
-        "https://miracleaneke.online",
-         "https://linkthread.com/miracleaneke",
-         "https://muckrack.com/miracleaneke",
-        "https://facebook.com/miracleaneke.0",
-        "https://github.com/Miracle91-An",
-        "https://miracleaneke.link",
-        "https://pinterest.com/miracleaneke",
-        "https://www.crunchbase.com/person/miracle-aneke",
-        "https://www.kaggle.com/anekemiracle",
-        "https://linkedin.com/in/miracleaneke"
-      ],
-      "description": "Miracle Aneke born 6th June 2006 is a Ghanaian-Nigerian blogger,an educator, an entrepreneur. Miracle Aneke is the Founder and CEO of Four Smart Brothers Ltd, specializing in web development, fashion designing, logistics, agriculture, and real estate assistance. Miracle Aneke was born to a Ghanaian mother and Nigerian father. Miracle Aneke established Four Smart Brothers Ltd on april,2025 and currently has two branches in Ghana and Nigeria,respectively",
-      "jobTitle": [
-        "Blogger",
-        "Educator",
-        "Entrepreneur",
-        "CEO",
-        "Founder of Four Smart Brothers Ltd"
-      ],
-"knowsLanguage": ["English", "French", "Twi"],
-      "religion": "Christianity"
-    },
-    {
-      "@type": "WebSite",
-      "name": "Miracle Aneke",
-      "url": "https://miracle-aneke.online",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://miracle-aneke.online/?s={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-  ]
-}
-    
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "Person",
+                    "name": "Miracle Aneke",
+                    "alternateName": [
+                        "Miracle Aneke the Blogger",
+                        "Miracle Aneke the Science Blogger",
+                        "Miracle Aneke CEO",
+                        "Miracle Aneke the Entrepreneur"
+                    ],
+                    "gender": "Male",
+                    "height": "170 cm",
+                    "nationality": ["Ghanaian", "Nigerian"],
+                    "birthPlace": {
+                        "@type": "Place",
+                        "name": "Tema, Ghana"
+                    },
+                    "url": "https://miracle-aneke.online",
+                    "image": "https://miracle-aneke.online/gallery.html",
+                    "sameAs": [
+                        "https://www.wikidata.org/Q134446025",
+                        "https://miracleaneke.online",
+                        "https://linkthread.com/miracleaneke",
+                        "https://muckrack.com/miracleaneke",
+                        "https://facebook.com/miracleaneke.0",
+                        "https://github.com/Miracle91-An",
+                        "https://miracleaneke.link",
+                        "https://pinterest.com/miracleaneke",
+                        "https://www.crunchbase.com/person/miracle-aneke",
+                        "https://www.kaggle.com/anekemiracle",
+                        "https://linkedin.com/in/miracleaneke"
+                    ],
+                    "description": "Miracle Aneke born 6th June 2006 is a Ghanaian-Nigerian blogger,an educator, an entrepreneur. Miracle Aneke is the Founder and CEO of Four Smart Brothers Ltd, specializing in web development, fashion designing, logistics, agriculture, and real estate assistance. Miracle Aneke was born to a Ghanaian mother and Nigerian father. Miracle Aneke established Four Smart Brothers Ltd on april,2025 and currently has two branches in Ghana and Nigeria,respectively",
+                    "jobTitle": [
+                        "Blogger",
+                        "Educator",
+                        "Entrepreneur",
+                        "CEO",
+                        "Founder of Four Smart Brothers Ltd"
+                    ],
+                    "knowsLanguage": ["English", "French", "Twi"],
+                    "religion": "Christianity"
+                },
+                {
+                    "@type": "WebSite",
+                    "name": "Miracle Aneke",
+                    "url": "https://miracle-aneke.online",
+                    "potentialAction": {
+                        "@type": "SearchAction",
+                        "target": "https://miracle-aneke.online/?s={search_term_string}",
+                        "query-input": "required name=search_term_string"
+                    }
+                }
+            ]
+        }
     </script>
+    
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -249,14 +787,77 @@
         </div>
     </footer>
 
-    <script src="main.js"></script>
+    <script>
+        // Mobile Menu Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const mobileNav = document.querySelector('.mobile-nav');
+            const overlay = document.querySelector('.overlay');
+            const mobileLinks = document.querySelectorAll('.mobile-nav a');
+            
+            // Set current year in footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            // Toggle mobile menu
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileNav.classList.toggle('active');
+                overlay.classList.toggle('active');
+                document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+            });
+            
+            // Close mobile menu when overlay is clicked
+            overlay.addEventListener('click', function() {
+                mobileNav.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            // Close mobile menu when a link is clicked
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileNav.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+            
+            // Close menu with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+                    mobileNav.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Smooth scroll for skip to content
+            document.querySelector('.skip-to-content').addEventListener('click', function(e) {
+                e.preventDefault();
+                const mainContent = document.getElementById('main-content');
+                mainContent.setAttribute('tabindex', '-1');
+                mainContent.focus();
+                mainContent.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Add animation classes to elements when they come into view
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe service items
+            document.querySelectorAll('.service-item').forEach(item => {
+                observer.observe(item);
+            });
+        });
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
